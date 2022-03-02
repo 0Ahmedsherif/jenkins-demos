@@ -14,5 +14,4 @@ def buildimage() {
 def deployapp() {
   echo 'Deploying the app...'
 }
-
-return this 
+return this
