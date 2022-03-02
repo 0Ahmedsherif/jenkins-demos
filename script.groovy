@@ -9,10 +9,10 @@ def buildimage() {
     sh "echo $PwD | docker login -u $USER --password-stdin"
     sh 'docker build -t doc299/java-maven-app:1.1 .'
     sh 'docker push doc299/java-maven-app:1.1'
+  }
 }
 
 def deployapp() {
   echo 'Deploying the app...'
 }
-
-return this 
+return this
