@@ -1,36 +1,37 @@
-// this is a pipeline to build a jar file and packaging it and build a docker images from it and finally pushing it into dockerhub repo.
-def gv
 pipeline {
-  agent any
-  tools {
-    maven 'M3'
-  }
+  agent none
+
   stages {
-    stage("Init") {
+    stage("test") {  // the test stage will executed in all branches
       steps {
         script {
-          gv = load "script.groovy"
+          echo "Testing the app..."
         }
       }
     }
-    stage("Build jar") {
+    stage("Build") {
+      when {
+        expression {
+          BRANCH_NAME == 'master' // the build will only executed in the master br
+        }
+      }
       steps {
         script {
-          gv.buildjar()
+          echo "Building the app..."
+          echo "executing pipeline for branch $BRANCH_NAME"
         }
       }
     }
-    stage("Build image") {
-      steps {
-        script {
-          gv.buildimage()
-          }
-        }
-      }
     stage("Deploy") {
+      when {
+        expression {
+          BRANCH_NAME == 'master' // the build will only executed in the master br
+        }
+      }
       steps {
         script {
-          gv.deployapp()
+          echo "Deploying the app..."
+          echo "deploying pipeline for branch $BRANCH_NAME"
         }
       }
     }
