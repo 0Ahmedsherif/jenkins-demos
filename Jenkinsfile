@@ -29,7 +29,7 @@ pipeline {
     stage("Build image") {
       steps {
         script {
-          Buildimage()
+          Buildimage 'doc299/java-maven-app:2.1'
           }
         }
       }
