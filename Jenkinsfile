@@ -4,6 +4,7 @@
 // if there's no defined vars after the importing of lib we need to add _ to seperate.
 
 @library('jenkins-shared-library')
+import de.schlumpf.*;
 def gv
 
 pipeline {
