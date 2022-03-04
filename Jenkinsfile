@@ -2,8 +2,7 @@
 // config of jenkins
 // syntax : @library('$NAME_OF_THE-LIB') || @library('$NAME_OF_THE-LIB')_ 
 // if there's no defined vars after the importing of lib we need to add _ to seperate.
-
-@library('jenkins-shared-library')
+@Library('jenkins-shared-library')
 def gv
 
 pipeline {
