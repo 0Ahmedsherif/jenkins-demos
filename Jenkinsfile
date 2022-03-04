@@ -28,7 +28,7 @@ pipeline {
     stage("Build image") {
       steps {
         script {
-          Buildimage "doc299/java-maven-app:2.1"
+          Buildimage doc299/java-maven-app:2.1'
           }
         }
       }
