@@ -1,5 +1,11 @@
-// this is a pipeline to build a jar file and packaging it and build a docker images from it and finally pushing it into dockerhub repo.
+// in order to use our defined function from the library we need to import the lib that we defined in the global
+// config of jenkins
+// syntax : @library('$NAME_OF_THE-LIB') || @library('$NAME_OF_THE-LIB')_ 
+// if there's no defined vars after the importing of lib we need to add _ to seperate.
+
+@library('jenkins-shared-library')
 def gv
+
 pipeline {
   agent any
   tools {
@@ -16,14 +22,14 @@ pipeline {
     stage("Build jar") {
       steps {
         script {
-          gv.buildjar()
+          Buildjar()  // calling the func that we defined in the lib
         }
       }
     }
     stage("Build image") {
       steps {
         script {
-          gv.buildimage()
+          Buildimage()
           }
         }
       }
