@@ -18,8 +18,7 @@ pipeline {
         stage('deploy') {
             steps {
                 script {
-                    echo "Deploying the application..."
-                    echo "Done!"
+                    echo "Deploying the application..."                 
                 }
             }
         }
