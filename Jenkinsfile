@@ -32,7 +32,6 @@ pipeline {
       //   expression {
       //     BRANCH_NAME == 'master'
       //   }
-      }
       steps {
         script {
           gv.deployapp()
