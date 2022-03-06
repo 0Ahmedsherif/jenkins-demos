@@ -14,5 +14,6 @@ def buildimage() {
 
 def deployapp() {
   echo 'Deploying the app...'
+  echo 'Deploying the app on br $BRANCH_NAME'
 }
 return this
