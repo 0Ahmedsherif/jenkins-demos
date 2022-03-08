@@ -1,42 +1,19 @@
-// this is a pipeline to build a jar file and packaging it and build a docker images from it and finally pushing it into dockerhub repo.
-def gv
 pipeline {
   agent any
   tools {
     maven 'M3'
   }
-  stages {
-    stage("Init") {
+    stage("copy files to ansible server") {
       steps {
         script {
-          gv = load "script.groovy"
-        }
-      }
-    }
-    stage("Build jar") {
-      steps {
-        script {
-          gv.buildjar()
-        }
-      }
-    }
-    stage("Build image") {
-      steps {
-        script {
-          gv.buildimage()
+          echo "copying all neccessary files to ansible control node"
+          sshagent(['ansible-server-key']) {
+            sh "scp -o StrictHostKeyChecking=no ~/jenkins-demo/ansible/* root@46.101.170.88:/root" // cp to ansible server (droblet)
+            withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+              sh "scp ${keyfile} root@46.101.170.88:/root/ansible-jenkins.pem "
+            }
           }
         }
       }
-    stage("Deploy") {
-      // when {
-      //   expression {
-      //     BRANCH_NAME == 'master'
-      //   }
-      steps {
-        script {
-          gv.deployapp()
-        }
-      }
     }
-  }
 }

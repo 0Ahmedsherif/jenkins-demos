@@ -1,0 +1,28 @@
+---
+- name: Install docker, docker-compose.
+  hosts: aws_ec2
+  become: yes
+  tasks:
+    - name: Make sure docker is installed
+      yum:
+        name: docker
+        update_cache: yes
+        state: present
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-{{lookup('pipe', 'uname -m')}}
+        dest: /usr/local/bin/docker-compose
+        mode: +x
+    - name: make sure docker is running
+      systemd:
+        name: docker
+        state: started
+    - name: make sure pip is installed
+      yum:
+        name: pip
+        state: present
+    - name: make sure docker-python module is installed
+      pip:
+        name: 
+          - docker
+          - docker-compose
