@@ -1,7 +1,8 @@
 ---
 - name: Install docker, docker-compose.
-  hosts: aws_ec2
+  hosts: all
   become: yes
+  gather_facts: False
   tasks:
     - name: Make sure docker is installed
       yum:
