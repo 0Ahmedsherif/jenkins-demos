@@ -1,14 +1,17 @@
 pipeline {
   agent any
+  environment {
+    ANSIBLE_SERVER = "46.101.170.88"
+  }
   stages {
     stage("copy files to ansible server") {
       steps {
         script {
           echo "copying all neccessary files to ansible control node"
           sshagent(['ansible-server-key']) {
-            sh "scp -o StrictHostKeyChecking=no ansible/* root@46.101.170.88:/root" // cp to ansible server (droblet)
+            sh "scp -o StrictHostKeyChecking=no ansible/* root@${ANSIBLE_SERVER}:/root" // cp to ansible server (droblet)
             withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
-              sh 'scp $keyfile root@46.101.170.88:/root/ansible-jenkins.pem' // using this syntax to fix security issue
+              sh 'scp $keyfile root@$ANSIBLE_SERVER:/root/ansible-jenkins.pem' // using this syntax to fix security issue
             }
           }
         }
@@ -20,7 +23,7 @@ pipeline {
           echo "calling ansible playbook to configure ec2 instances" // for this we install ssh pipeline steps plugin
           def remote = [:]
           remote.name = "ansible-server"
-          remote.host = "46.101.170.88"
+          remote.host = ANSIBLE_SERVER
           remote.allowAnyHosts = true
           withCredentials([sshUserPrivateKey(credentialsId: 'ansible-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
             remote.user = user
