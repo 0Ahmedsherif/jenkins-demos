@@ -1,8 +1,6 @@
 pipeline {
   agent any
-  tools {
-    maven 'M3'
-  }
+  stages {
     stage("copy files to ansible server") {
       steps {
         script {
@@ -16,4 +14,5 @@ pipeline {
         }
       }
     }
+  }
 }
