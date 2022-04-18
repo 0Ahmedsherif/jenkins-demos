@@ -1,5 +1,5 @@
 ===========================
-incremet version in maven
+increment version in maven
 ===========================
 
 mvn build-helper:parse-version versions:set \
